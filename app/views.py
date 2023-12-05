@@ -32,35 +32,3 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
     
-    
-def user_logout(request):
-    logout(request)
-    # Redirect to the homepage or any other desired page after logout
-    return redirect('/')
-
-
-class LoginView(APIView):
-    def post(self, request, *args, **kwargs):
-        # Get username and password from the request data
-        email = request.data.get('email')
-        password = request.data.get('password')
-
-        # Attempt to authenticate a user with the provided username and password
-        user = authenticate(username=email, password=password)
-
-        # Check if authentication was successful
-        if user is not None:
-            # A backend authenticated the credentials
-            # Perform actions for authenticated user, e.g., log them in
-            response_data = {
-                'message': 'Authentication successful',
-                'username': user.username,
-                # Additional data you may want to include in the response
-            }
-            return Response(response_data, status=status.HTTP_200_OK)
-
-        else:
-            # No backend authenticated the credentials
-            # Handle the case where authentication failed
-            response_data = {'message': 'Authentication failed'}
-            return Response(response_data, status=status.HTTP_401_UNAUTHORIZED)

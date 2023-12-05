@@ -6,18 +6,25 @@ import tokenService from './token.service'
 class ApiService {
     logOut = () => {
         api({ url: "/auth/logout/", method: "POST" }).then(() => {
-            // commit
             tokenService.removeAllCookies()
             router.push('/login')
         })
     }
 
-    logIn = () => {
-        api({ url: "/auth/login/", method: "POST" }).then(() => {
-            // commit
-            tokenService.removeAllCookies()
-            router.push('/')
+    logIn = (email, password) => {
+        const data = {
+            username: email,
+            password: password
+        };
+        
+        api({ url: "/auth/login/", method: "POST",  data}).then(response => {
+            // Handle the response
+            console.log(response);
         })
+        .catch(error => {
+            // Handle errors
+            console.error(error);
+        });
     }
 }
 

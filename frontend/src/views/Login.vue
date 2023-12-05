@@ -65,6 +65,8 @@
 
 <script setup>
 import { ref } from 'vue';
+import ApiService from '@/services/api.services'
+import router from "@/router/index"
 
 const currentForm = ref('login');
 const email = ref('');
@@ -85,7 +87,9 @@ const submitForm = () => {
     } else {
         console.log('Email:', email.value);
         console.log('Password:', password.value);
-        
+        ApiService.logIn(email.value, password.value)
+        router.push("/")
+ 
     }
 };
 </script>
