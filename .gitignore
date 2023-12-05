@@ -1,0 +1,6 @@
+.vscode/
+myenv/
+# .gitignore
+__pycache__
+static/
+templates/
