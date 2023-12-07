@@ -89,7 +89,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # remove to request REST with no-auth
         # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
         # 'mozilla_django_oidc.contrib.drf.OIDCAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),

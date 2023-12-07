@@ -11,20 +11,31 @@ class ApiService {
         })
     }
 
-    logIn = (email, password) => {
+
+    logIn = async (email, password) => {
         const data = {
             username: email,
             password: password
         };
-        
-        api({ url: "/auth/login/", method: "POST",  data}).then(response => {
+        const message = ref(null)
+        await api({ url: "/auth/login/", method: "POST", data }).then(response => {
             // Handle the response
-            console.log(response);
+            if (response && response.status == 200) {
+                const key = response.data.key
+                message.value = "login success"
+                tokenService.setCookieByKeyValue('token', key)
+                router.push('/')
+            }
         })
-        .catch(error => {
-            // Handle errors
-            console.error(error);
-        });
+            .catch(error => {
+                // Handle errors
+                if (error.response && error.response.status === 400) {
+                    message.value = error.response.data.message || 'Invalid credentials';
+                } else {
+                    message.value = 'An error occurred during login';
+                }
+            });
+        return { message }
     }
 }
 
