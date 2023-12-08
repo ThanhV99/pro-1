@@ -41,6 +41,7 @@ urlpatterns = [
     path("api/v1/", include("app.urls")),
     path("admin/", admin.site.urls),
     path('api/v1/auth/', include('dj_rest_auth.urls')),
+    # path('api/v1/auth/registration/', include('dj_rest_auth.registration.urls')),
     path('doc/swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('doc/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('', TemplateView.as_view(template_name='index.html')),

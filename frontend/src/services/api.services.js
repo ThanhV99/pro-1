@@ -37,6 +37,31 @@ class ApiService {
             });
         return { message }
     }
+
+
+    register = async (email, last_name, password, password2) => {
+        const data = {
+            email: email,
+            last_name: last_name,
+            password: password,
+            password2: password2
+        }
+        const messages = ref(null)
+        await api({ url: "/register/", method: "POST", data }).then(response => {
+            // Handle the response
+            if (response && response.status == 200) {
+            }
+        })
+            .catch(error => {
+                // Handle errors
+                if (error.response && error.response.status === 400) {
+                    messages.value = error.response.data;
+                } else {
+                    messages.value = 'An error occurred during register';
+                }
+            });
+        return { messages }
+    }
 }
 
 export default new ApiService()

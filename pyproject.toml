@@ -11,9 +11,12 @@ django = "^4.2.7"
 mozilla-django-oidc = "^3.0.0"
 django-filter = "^23.4"
 drf-yasg = "^1.21.7"
-dj-rest-auth = "^5.0.2"
 python-dotenv = "^1.0.0"
 django-cors-headers = "^4.3.1"
+dj-rest-auth-social = "^2.2.4"
+django-allauth = "0.56.1"
+dj-rest-auth = "5.0.0"
+django-utils-six = "^2.0"
 
 
 [build-system]

@@ -11,11 +11,12 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         {{ currentForm === 'signup' ? 'Create an account' : 'Login' }}
                     </h1>
-                    <div v-if="show_message" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <div v-if="show_message"
+                        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                         <!-- <strong class="font-bold">Holy smokes!</strong> -->
                         <span class="block sm:inline">{{ message_status }}</span>
                         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                
+
                         </span>
                     </div>
                     <form class="space-y-4 md:space-y-6" @submit.prevent="submitForm">
@@ -25,6 +26,13 @@
                             <input v-model="email" type="email" name="email" id="email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="name@company.com">
+                        </div>
+                        <div v-if="currentForm === 'signup'">
+                            <label for="name"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                            <input v-model="name" type="text" name="name" id="name"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="your name">
                         </div>
                         <div>
                             <label for="password"
@@ -77,10 +85,11 @@ import router from "@/router/index"
 
 const currentForm = ref('login');
 const email = ref('');
+const name = ref('');
 const password = ref('');
 const confirm_pass = ref('');
 const check_box = ref();
-const message_status = ref ();
+const message_status = ref();
 const show_message = ref();
 
 const toggleForm = () => {
@@ -91,16 +100,20 @@ const submitForm = async () => {
     // Handle form submission logic here
     if (currentForm.value === 'signup') {
         if (check_box.value) {
-            show_message.value = false
+            const { messages } = await ApiService.register(email.value, name.value, password.value, confirm_pass.value)
+            message_status.value = messages.value
+            console.log(messages.value)
+            show_message.value = true
         } else {
             show_message.value = true
+            message_status.value = "Need accept term"
         }
     } else {
         // console.log('Email:', email.value);
         // console.log('Password:', password.value);
         const { message } = await ApiService.logIn(email.value, password.value)
         message_status.value = message.value
-        if (message.value != "login success"){
+        if (message.value != "login success") {
             show_message.value = true
         }
     }
